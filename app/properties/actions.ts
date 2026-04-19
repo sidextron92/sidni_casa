@@ -54,7 +54,7 @@ export async function submitUrl(_prev: SubmitUrlState, formData: FormData): Prom
 
   let html: string
   try {
-    html = await fetchUrlText(url)
+    html = await fetchUrlText(url, pb.authStore.token)
   } catch (e) {
     const msg = e instanceof Error ? e.message : 'fetch failed'
     return {

@@ -49,7 +49,31 @@ export type ExtractedProperty = {
   confidence_notes: string
 }
 
-export async function fetchUrlText(url: string): Promise<string> {
+export async function fetchUrlText(url: string, authToken?: string): Promise<string> {
+  const viaProxy = process.env.SCRAPE_VIA_PB_PROXY === '1'
+  if (viaProxy && authToken) {
+    return fetchViaPbProxy(url, authToken)
+  }
+  return fetchDirect(url)
+}
+
+async function fetchViaPbProxy(targetUrl: string, authToken: string): Promise<string> {
+  const pbUrl = process.env.NEXT_PUBLIC_POCKETBASE_URL
+  if (!pbUrl) throw new Error('NEXT_PUBLIC_POCKETBASE_URL not set')
+  const proxy = `${pbUrl}/api/sidnicasa/proxy-fetch?url=${encodeURIComponent(targetUrl)}`
+  const res = await fetch(proxy, {
+    headers: { Authorization: authToken },
+    redirect: 'follow',
+  })
+  if (!res.ok) {
+    const body = await res.text().catch(() => '')
+    throw new Error(`Proxy HTTP ${res.status}: ${body.slice(0, 200)}`)
+  }
+  const html = await res.text()
+  return html.slice(0, 200_000)
+}
+
+async function fetchDirect(url: string): Promise<string> {
   const res = await fetch(url, {
     headers: {
       'User-Agent':
