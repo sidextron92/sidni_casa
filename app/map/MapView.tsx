@@ -163,6 +163,8 @@ export default function MapView({ properties }: Props) {
               lon = centroid[0] + jx
               lat = centroid[1] + jy
               approximate = true
+            } else if (sectorStatus === 'loaded' && key) {
+              console.warn(`[map] no polygon for sector "${key}" on property ${p.id} (${p.society_name})`)
             }
           }
 
@@ -223,7 +225,57 @@ export default function MapView({ properties }: Props) {
         </div>
       )}
 
+      <UnmappedPanel
+        properties={properties}
+        sectorCentroids={sectorCentroids}
+        sectorStatus={sectorStatus}
+      />
       <Legend />
+    </div>
+  )
+}
+
+function UnmappedPanel({
+  properties,
+  sectorCentroids,
+  sectorStatus,
+}: {
+  properties: MapPropertyMarker[]
+  sectorCentroids: Map<string, [number, number]>
+  sectorStatus: 'loading' | 'loaded' | 'missing'
+}) {
+  const unmapped = properties.filter((p) => {
+    if (p.lat != null && p.lon != null) return false
+    const key = sectorKey(p.sector)
+    if (!key) return true
+    if (sectorStatus !== 'loaded') return false
+    return !sectorCentroids.has(key)
+  })
+  if (unmapped.length === 0) return null
+  return (
+    <div className="pointer-events-auto absolute bottom-3 left-3 max-w-xs rounded-2xl border border-amber-200 bg-white/95 px-3 py-2 text-xs shadow-sm backdrop-blur">
+      <div className="mb-1 font-medium text-amber-900">
+        {unmapped.length} not on map
+      </div>
+      <ul className="space-y-0.5 text-stone-700">
+        {unmapped.slice(0, 4).map((p) => {
+          const key = sectorKey(p.sector)
+          const reason = !key
+            ? 'no sector'
+            : !sectorCentroids.has(key)
+              ? `sector "${key}" not in polygon set`
+              : 'unknown'
+          return (
+            <li key={p.id} className="truncate">
+              <span className="font-medium">{p.society_name}</span>
+              <span className="text-stone-500"> — {reason}</span>
+            </li>
+          )
+        })}
+        {unmapped.length > 4 && (
+          <li className="text-stone-400">+ {unmapped.length - 4} more…</li>
+        )}
+      </ul>
     </div>
   )
 }

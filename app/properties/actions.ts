@@ -173,38 +173,40 @@ export async function verifyListing(_prev: VerifyState, formData: FormData): Pro
     )
     const description = String(formData.get('description') ?? '').trim().slice(0, 5000)
 
+    const createPayload: Record<string, unknown> = {
+      society_name: society,
+      society_name_normalized: normalizeSocietyName(society),
+      tower: tower || undefined,
+      unit_number: unit || undefined,
+      sector: sector || undefined,
+      city: cityRaw,
+      bhk,
+      carpet_sqft: carpet,
+      super_sqft: superSqft,
+      listing_price: price,
+      price_per_sqft: pricePerSqft,
+      status: 'exploring',
+      image_urls: imageUrls,
+      property_type: propertyType,
+      transaction_type: transactionType,
+      possession_status: possessionStatus,
+      age_years: ageYears,
+      floor_number: floorNumber,
+      total_floors: totalFloors,
+      facing,
+      furnishing,
+      bathrooms,
+      parking_covered: parkingCovered,
+      parking_open: parkingOpen,
+      maintenance_monthly: maintenanceMonthly,
+      amenities,
+      description: description || undefined,
+      created_by: userId,
+    }
+    if (location) createPayload.location = location
+
     try {
-      const p = await pb.collection(COLLECTIONS.properties).create({
-        society_name: society,
-        society_name_normalized: normalizeSocietyName(society),
-        tower: tower || undefined,
-        unit_number: unit || undefined,
-        sector: sector || undefined,
-        city: cityRaw,
-        bhk,
-        carpet_sqft: carpet,
-        super_sqft: superSqft,
-        listing_price: price,
-        price_per_sqft: pricePerSqft,
-        location,
-        status: 'exploring',
-        image_urls: imageUrls,
-        property_type: propertyType,
-        transaction_type: transactionType,
-        possession_status: possessionStatus,
-        age_years: ageYears,
-        floor_number: floorNumber,
-        total_floors: totalFloors,
-        facing,
-        furnishing,
-        bathrooms,
-        parking_covered: parkingCovered,
-        parking_open: parkingOpen,
-        maintenance_monthly: maintenanceMonthly,
-        amenities,
-        description: description || undefined,
-        created_by: userId,
-      })
+      const p = await pb.collection(COLLECTIONS.properties).create(createPayload)
       propertyId = p.id
     } catch (e) {
       console.error('[verifyListing] property create failed', e)

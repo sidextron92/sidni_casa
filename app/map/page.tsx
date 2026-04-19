@@ -12,13 +12,16 @@ export default async function MapPage() {
     .getFullList<PropertyRecord>({ sort: '-created' })
     .catch(() => [])
 
+  // Treat (0, 0) geoPoint as unset — PocketBase's geoPoint defaults there
+  // when the field is omitted at create time.
+  const hasRealLocation = (loc: PropertyRecord['location']) =>
+    !!loc &&
+    Number.isFinite(loc.lat) &&
+    Number.isFinite(loc.lon) &&
+    !(loc.lat === 0 && loc.lon === 0)
+
   const mapProps = properties
-    .filter((p) => {
-      const hasLocation =
-        !!p.location && Number.isFinite(p.location.lat) && Number.isFinite(p.location.lon)
-      const hasSector = !!p.sector && p.sector.trim() !== ''
-      return hasLocation || hasSector
-    })
+    .filter((p) => hasRealLocation(p.location) || (!!p.sector && p.sector.trim() !== ''))
     .map((p) => ({
       id: p.id,
       society_name: p.society_name,
@@ -27,8 +30,8 @@ export default async function MapPage() {
       status: p.status,
       listing_price: p.listing_price ?? null,
       super_sqft: p.super_sqft ?? null,
-      lat: p.location && Number.isFinite(p.location.lat) ? p.location.lat : null,
-      lon: p.location && Number.isFinite(p.location.lon) ? p.location.lon : null,
+      lat: hasRealLocation(p.location) ? p.location!.lat : null,
+      lon: hasRealLocation(p.location) ? p.location!.lon : null,
       image: Array.isArray(p.image_urls) && p.image_urls.length > 0 ? p.image_urls[0] : null,
     }))
 
