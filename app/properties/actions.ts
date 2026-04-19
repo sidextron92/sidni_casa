@@ -133,8 +133,10 @@ export async function verifyListing(_prev: VerifyState, formData: FormData): Pro
     const cityRaw = String(formData.get('city') ?? 'Noida') as City
     const carpet = toOptInt(formData.get('carpet_sqft'))
     const superSqft = toOptInt(formData.get('super_sqft'))
+    if (!superSqft) return { error: 'Super area (sqft) is required.' }
     const price = toOptInt(formData.get('listing_price'))
-    const pricePerSqft = price && superSqft ? Math.round(price / superSqft) : undefined
+    if (!price) return { error: 'Listing price is required.' }
+    const pricePerSqft = Math.round(price / superSqft)
     const lat = toOptFloat(formData.get('latitude'))
     const lon = toOptFloat(formData.get('longitude'))
     const location =

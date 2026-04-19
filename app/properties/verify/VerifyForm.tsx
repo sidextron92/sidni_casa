@@ -157,8 +157,22 @@ export default function VerifyForm({ pending, candidates }: Props) {
         <Field label="BHK" name="bhk" type="number" defaultValue={n('bhk')} required disabled={!!linkTo} />
 
         <Field label="Carpet (sqft)" name="carpet_sqft" type="number" defaultValue={n('carpet_sqft')} disabled={!!linkTo} />
-        <Field label="Super (sqft)" name="super_sqft" type="number" defaultValue={n('super_sqft')} disabled={!!linkTo} />
-        <Field label="Listing price (₹)" name="listing_price" type="number" defaultValue={n('listing_price_inr')} />
+        <Field
+          label="Super (sqft)"
+          name="super_sqft"
+          type="number"
+          defaultValue={n('super_sqft')}
+          required={!linkTo}
+          disabled={!!linkTo}
+        />
+        <Field
+          label="Listing price (₹)"
+          name="listing_price"
+          type="number"
+          defaultValue={n('listing_price_inr')}
+          required={!linkTo}
+          disabled={!!linkTo}
+        />
 
         <Field
           label="Latitude"
