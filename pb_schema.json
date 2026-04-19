@@ -1,0 +1,1157 @@
+[
+  {
+    "id": "scmembers000001",
+    "name": "sidnicasa_members",
+    "type": "base",
+    "system": false,
+    "fields": [
+      {
+        "id": "text_id_mem_001",
+        "name": "id",
+        "type": "text",
+        "system": true,
+        "required": true,
+        "primaryKey": true,
+        "hidden": false,
+        "presentable": false,
+        "min": 15,
+        "max": 15,
+        "pattern": "^[a-z0-9]+$",
+        "autogeneratePattern": "[a-z0-9]{15}"
+      },
+      {
+        "id": "rel_mem_user01",
+        "name": "user",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": true,
+        "collectionId": "_pb_users_auth_",
+        "cascadeDelete": true,
+        "maxSelect": 1,
+        "minSelect": 0
+      },
+      {
+        "id": "sel_mem_role01",
+        "name": "role",
+        "type": "select",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": false,
+        "values": ["admin", "member"],
+        "maxSelect": 1
+      },
+      {
+        "id": "txt_mem_dnm_01",
+        "name": "display_name",
+        "type": "text",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": true,
+        "max": 60
+      },
+      {
+        "id": "autodt_mem_cr",
+        "name": "created",
+        "type": "autodate",
+        "system": false,
+        "hidden": false,
+        "presentable": false,
+        "onCreate": true,
+        "onUpdate": false
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX `idx_members_user` ON `sidnicasa_members` (`user`)"
+    ],
+    "listRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "viewRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "createRule": null,
+    "updateRule": null,
+    "deleteRule": null
+  },
+  {
+    "id": "scproperties001",
+    "name": "sidnicasa_properties",
+    "type": "base",
+    "system": false,
+    "fields": [
+      {
+        "id": "text_id_prp_01",
+        "name": "id",
+        "type": "text",
+        "system": true,
+        "required": true,
+        "primaryKey": true,
+        "hidden": false,
+        "presentable": false,
+        "min": 15,
+        "max": 15,
+        "pattern": "^[a-z0-9]+$",
+        "autogeneratePattern": "[a-z0-9]{15}"
+      },
+      {
+        "id": "txt_prp_soc_01",
+        "name": "society_name",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": true
+      },
+      {
+        "id": "txt_prp_nrm_01",
+        "name": "society_name_normalized",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": false
+      },
+      {
+        "id": "txt_prp_twr_01",
+        "name": "tower",
+        "type": "text",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false
+      },
+      {
+        "id": "txt_prp_unt_01",
+        "name": "unit_number",
+        "type": "text",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false
+      },
+      {
+        "id": "txt_prp_sec_01",
+        "name": "sector",
+        "type": "text",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false
+      },
+      {
+        "id": "sel_prp_cty_01",
+        "name": "city",
+        "type": "select",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": false,
+        "values": ["Noida", "Greater Noida", "Noida Extension", "Other"],
+        "maxSelect": 1
+      },
+      {
+        "id": "num_prp_bhk_01",
+        "name": "bhk",
+        "type": "number",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": false,
+        "min": 1,
+        "max": 6,
+        "onlyInt": true
+      },
+      {
+        "id": "num_prp_cps_01",
+        "name": "carpet_sqft",
+        "type": "number",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "onlyInt": true
+      },
+      {
+        "id": "num_prp_sps_01",
+        "name": "super_sqft",
+        "type": "number",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "onlyInt": true
+      },
+      {
+        "id": "num_prp_prc_01",
+        "name": "listing_price",
+        "type": "number",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "onlyInt": true
+      },
+      {
+        "id": "num_prp_pps_01",
+        "name": "price_per_sqft",
+        "type": "number",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false
+      },
+      {
+        "id": "geo_prp_loc_01",
+        "name": "location",
+        "type": "geoPoint",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false
+      },
+      {
+        "id": "sel_prp_sts_01",
+        "name": "status",
+        "type": "select",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": false,
+        "values": ["exploring", "shortlisted", "visited", "rejected", "offered", "closed"],
+        "maxSelect": 1
+      },
+      {
+        "id": "txt_prp_ddp_01",
+        "name": "dedup_cluster_id",
+        "type": "text",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false
+      },
+      {
+        "id": "jsn_prp_img_01",
+        "name": "image_urls",
+        "type": "json",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "maxSize": 20000
+      },
+      {
+        "id": "sel_prp_pty_01",
+        "name": "property_type",
+        "type": "select",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "values": ["apartment", "villa", "builder_floor", "independent_house", "plot"],
+        "maxSelect": 1
+      },
+      {
+        "id": "sel_prp_txn_01",
+        "name": "transaction_type",
+        "type": "select",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "values": ["resale", "new", "under_construction"],
+        "maxSelect": 1
+      },
+      {
+        "id": "sel_prp_pos_01",
+        "name": "possession_status",
+        "type": "select",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "values": ["ready_to_move", "under_construction"],
+        "maxSelect": 1
+      },
+      {
+        "id": "num_prp_age_01",
+        "name": "age_years",
+        "type": "number",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "onlyInt": true,
+        "min": 0
+      },
+      {
+        "id": "num_prp_fln_01",
+        "name": "floor_number",
+        "type": "number",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "onlyInt": true
+      },
+      {
+        "id": "num_prp_tfl_01",
+        "name": "total_floors",
+        "type": "number",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "onlyInt": true,
+        "min": 0
+      },
+      {
+        "id": "sel_prp_fac_01",
+        "name": "facing",
+        "type": "select",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "values": [
+          "north",
+          "south",
+          "east",
+          "west",
+          "north_east",
+          "north_west",
+          "south_east",
+          "south_west"
+        ],
+        "maxSelect": 1
+      },
+      {
+        "id": "sel_prp_fur_01",
+        "name": "furnishing",
+        "type": "select",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "values": ["furnished", "semi_furnished", "unfurnished"],
+        "maxSelect": 1
+      },
+      {
+        "id": "num_prp_bth_01",
+        "name": "bathrooms",
+        "type": "number",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "onlyInt": true,
+        "min": 0
+      },
+      {
+        "id": "num_prp_pkc_01",
+        "name": "parking_covered",
+        "type": "number",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "onlyInt": true,
+        "min": 0
+      },
+      {
+        "id": "num_prp_pko_01",
+        "name": "parking_open",
+        "type": "number",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "onlyInt": true,
+        "min": 0
+      },
+      {
+        "id": "num_prp_mnt_01",
+        "name": "maintenance_monthly",
+        "type": "number",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "onlyInt": true,
+        "min": 0
+      },
+      {
+        "id": "jsn_prp_amn_01",
+        "name": "amenities",
+        "type": "json",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "maxSize": 10000
+      },
+      {
+        "id": "txt_prp_dsc_01",
+        "name": "description",
+        "type": "text",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "max": 5000
+      },
+      {
+        "id": "rel_prp_usr_01",
+        "name": "created_by",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": false,
+        "collectionId": "_pb_users_auth_",
+        "cascadeDelete": false,
+        "maxSelect": 1,
+        "minSelect": 0
+      },
+      {
+        "id": "autodt_prp_cr",
+        "name": "created",
+        "type": "autodate",
+        "system": false,
+        "hidden": false,
+        "presentable": false,
+        "onCreate": true,
+        "onUpdate": false
+      },
+      {
+        "id": "autodt_prp_up",
+        "name": "updated",
+        "type": "autodate",
+        "system": false,
+        "hidden": false,
+        "presentable": false,
+        "onCreate": true,
+        "onUpdate": true
+      }
+    ],
+    "indexes": [
+      "CREATE INDEX `idx_props_soc_norm` ON `sidnicasa_properties` (`society_name_normalized`)",
+      "CREATE INDEX `idx_props_sector` ON `sidnicasa_properties` (`sector`)",
+      "CREATE INDEX `idx_props_status` ON `sidnicasa_properties` (`status`)"
+    ],
+    "listRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "viewRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "createRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "updateRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "deleteRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id"
+  },
+  {
+    "id": "sclistings00001",
+    "name": "sidnicasa_listings",
+    "type": "base",
+    "system": false,
+    "fields": [
+      {
+        "id": "text_id_lst_01",
+        "name": "id",
+        "type": "text",
+        "system": true,
+        "required": true,
+        "primaryKey": true,
+        "hidden": false,
+        "presentable": false,
+        "min": 15,
+        "max": 15,
+        "pattern": "^[a-z0-9]+$",
+        "autogeneratePattern": "[a-z0-9]{15}"
+      },
+      {
+        "id": "rel_lst_prp_01",
+        "name": "property",
+        "type": "relation",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "collectionId": "scproperties001",
+        "cascadeDelete": false,
+        "maxSelect": 1,
+        "minSelect": 0
+      },
+      {
+        "id": "url_lst_src_01",
+        "name": "source_url",
+        "type": "url",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": true
+      },
+      {
+        "id": "sel_lst_ste_01",
+        "name": "source_site",
+        "type": "select",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": false,
+        "values": ["magicbricks", "99acres", "housing", "nobroker", "squareyards", "other"],
+        "maxSelect": 1
+      },
+      {
+        "id": "rel_lst_brk_01",
+        "name": "broker",
+        "type": "relation",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "collectionId": "scbrokers000001",
+        "cascadeDelete": false,
+        "maxSelect": 1,
+        "minSelect": 0
+      },
+      {
+        "id": "jsn_lst_raw_01",
+        "name": "raw_scrape",
+        "type": "json",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "maxSize": 2000000
+      },
+      {
+        "id": "dat_lst_scr_01",
+        "name": "scraped_at",
+        "type": "date",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false
+      },
+      {
+        "id": "rel_lst_sub_01",
+        "name": "submitted_by",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": false,
+        "collectionId": "_pb_users_auth_",
+        "cascadeDelete": false,
+        "maxSelect": 1,
+        "minSelect": 0
+      },
+      {
+        "id": "bol_lst_vrf_01",
+        "name": "verified_by_human",
+        "type": "bool",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false
+      },
+      {
+        "id": "rel_lst_vby_01",
+        "name": "verified_by",
+        "type": "relation",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "collectionId": "_pb_users_auth_",
+        "cascadeDelete": false,
+        "maxSelect": 1,
+        "minSelect": 0
+      },
+      {
+        "id": "jsn_lst_img_01",
+        "name": "image_urls",
+        "type": "json",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "maxSize": 20000
+      },
+      {
+        "id": "autodt_lst_cr",
+        "name": "created",
+        "type": "autodate",
+        "system": false,
+        "hidden": false,
+        "presentable": false,
+        "onCreate": true,
+        "onUpdate": false
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX `idx_listings_url` ON `sidnicasa_listings` (`source_url`)"
+    ],
+    "listRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "viewRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "createRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "updateRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "deleteRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id"
+  },
+  {
+    "id": "scbrokers000001",
+    "name": "sidnicasa_brokers",
+    "type": "base",
+    "system": false,
+    "fields": [
+      {
+        "id": "text_id_brk_01",
+        "name": "id",
+        "type": "text",
+        "system": true,
+        "required": true,
+        "primaryKey": true,
+        "hidden": false,
+        "presentable": false,
+        "min": 15,
+        "max": 15,
+        "pattern": "^[a-z0-9]+$",
+        "autogeneratePattern": "[a-z0-9]{15}"
+      },
+      {
+        "id": "txt_brk_nam_01",
+        "name": "name",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": true
+      },
+      {
+        "id": "txt_brk_phn_01",
+        "name": "phone",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": true
+      },
+      {
+        "id": "txt_brk_agy_01",
+        "name": "agency",
+        "type": "text",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false
+      },
+      {
+        "id": "num_brk_cnt_01",
+        "name": "contact_count",
+        "type": "number",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "onlyInt": true,
+        "min": 0
+      },
+      {
+        "id": "dat_brk_lst_01",
+        "name": "last_contacted_at",
+        "type": "date",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false
+      },
+      {
+        "id": "rel_brk_prp_01",
+        "name": "pitched_properties",
+        "type": "relation",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "collectionId": "scproperties001",
+        "cascadeDelete": false,
+        "maxSelect": 0,
+        "minSelect": 0
+      },
+      {
+        "id": "txt_brk_nts_01",
+        "name": "notes",
+        "type": "text",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false
+      },
+      {
+        "id": "autodt_brk_cr",
+        "name": "created",
+        "type": "autodate",
+        "system": false,
+        "hidden": false,
+        "presentable": false,
+        "onCreate": true,
+        "onUpdate": false
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX `idx_brokers_phone` ON `sidnicasa_brokers` (`phone`)"
+    ],
+    "listRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "viewRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "createRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "updateRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "deleteRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id"
+  },
+  {
+    "id": "scratings000001",
+    "name": "sidnicasa_ratings",
+    "type": "base",
+    "system": false,
+    "fields": [
+      {
+        "id": "text_id_rat_01",
+        "name": "id",
+        "type": "text",
+        "system": true,
+        "required": true,
+        "primaryKey": true,
+        "hidden": false,
+        "presentable": false,
+        "min": 15,
+        "max": 15,
+        "pattern": "^[a-z0-9]+$",
+        "autogeneratePattern": "[a-z0-9]{15}"
+      },
+      {
+        "id": "rel_rat_prp_01",
+        "name": "property",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": false,
+        "collectionId": "scproperties001",
+        "cascadeDelete": true,
+        "maxSelect": 1,
+        "minSelect": 0
+      },
+      {
+        "id": "rel_rat_usr_01",
+        "name": "user",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": false,
+        "collectionId": "_pb_users_auth_",
+        "cascadeDelete": true,
+        "maxSelect": 1,
+        "minSelect": 0
+      },
+      {
+        "id": "num_rat_scr_01",
+        "name": "score",
+        "type": "number",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": false,
+        "onlyInt": true,
+        "min": 1,
+        "max": 10
+      },
+      {
+        "id": "jsn_rat_dim_01",
+        "name": "dimensions",
+        "type": "json",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "maxSize": 2000
+      },
+      {
+        "id": "autodt_rat_cr",
+        "name": "created",
+        "type": "autodate",
+        "system": false,
+        "hidden": false,
+        "presentable": false,
+        "onCreate": true,
+        "onUpdate": false
+      },
+      {
+        "id": "autodt_rat_up",
+        "name": "updated",
+        "type": "autodate",
+        "system": false,
+        "hidden": false,
+        "presentable": false,
+        "onCreate": true,
+        "onUpdate": true
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX `idx_ratings_prop_user` ON `sidnicasa_ratings` (`property`, `user`)"
+    ],
+    "listRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "viewRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "createRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id && user = @request.auth.id",
+    "updateRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id && user = @request.auth.id",
+    "deleteRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id && user = @request.auth.id"
+  },
+  {
+    "id": "sccomments00001",
+    "name": "sidnicasa_comments",
+    "type": "base",
+    "system": false,
+    "fields": [
+      {
+        "id": "text_id_cmt_01",
+        "name": "id",
+        "type": "text",
+        "system": true,
+        "required": true,
+        "primaryKey": true,
+        "hidden": false,
+        "presentable": false,
+        "min": 15,
+        "max": 15,
+        "pattern": "^[a-z0-9]+$",
+        "autogeneratePattern": "[a-z0-9]{15}"
+      },
+      {
+        "id": "rel_cmt_prp_01",
+        "name": "property",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": false,
+        "collectionId": "scproperties001",
+        "cascadeDelete": true,
+        "maxSelect": 1,
+        "minSelect": 0
+      },
+      {
+        "id": "rel_cmt_usr_01",
+        "name": "user",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": false,
+        "collectionId": "_pb_users_auth_",
+        "cascadeDelete": false,
+        "maxSelect": 1,
+        "minSelect": 0
+      },
+      {
+        "id": "txt_cmt_bdy_01",
+        "name": "body",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": true,
+        "max": 5000
+      },
+      {
+        "id": "autodt_cmt_cr",
+        "name": "created",
+        "type": "autodate",
+        "system": false,
+        "hidden": false,
+        "presentable": false,
+        "onCreate": true,
+        "onUpdate": false
+      }
+    ],
+    "indexes": [
+      "CREATE INDEX `idx_comments_prop` ON `sidnicasa_comments` (`property`)"
+    ],
+    "listRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "viewRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "createRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id && user = @request.auth.id",
+    "updateRule": "@request.auth.id != '' && user = @request.auth.id",
+    "deleteRule": "@request.auth.id != '' && user = @request.auth.id"
+  },
+  {
+    "id": "sctags000000001",
+    "name": "sidnicasa_tags",
+    "type": "base",
+    "system": false,
+    "fields": [
+      {
+        "id": "text_id_tag_01",
+        "name": "id",
+        "type": "text",
+        "system": true,
+        "required": true,
+        "primaryKey": true,
+        "hidden": false,
+        "presentable": false,
+        "min": 15,
+        "max": 15,
+        "pattern": "^[a-z0-9]+$",
+        "autogeneratePattern": "[a-z0-9]{15}"
+      },
+      {
+        "id": "txt_tag_lbl_01",
+        "name": "label",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": true
+      },
+      {
+        "id": "txt_tag_slg_01",
+        "name": "slug",
+        "type": "text",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": false,
+        "pattern": "^[a-z0-9-]+$"
+      },
+      {
+        "id": "sel_tag_pol_01",
+        "name": "polarity",
+        "type": "select",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": false,
+        "values": ["pro", "con", "neutral"],
+        "maxSelect": 1
+      },
+      {
+        "id": "autodt_tag_cr",
+        "name": "created",
+        "type": "autodate",
+        "system": false,
+        "hidden": false,
+        "presentable": false,
+        "onCreate": true,
+        "onUpdate": false
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX `idx_tags_label` ON `sidnicasa_tags` (`label`)",
+      "CREATE UNIQUE INDEX `idx_tags_slug` ON `sidnicasa_tags` (`slug`)"
+    ],
+    "listRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "viewRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "createRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "updateRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "deleteRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id"
+  },
+  {
+    "id": "scproptags00001",
+    "name": "sidnicasa_property_tags",
+    "type": "base",
+    "system": false,
+    "fields": [
+      {
+        "id": "text_id_ptg_01",
+        "name": "id",
+        "type": "text",
+        "system": true,
+        "required": true,
+        "primaryKey": true,
+        "hidden": false,
+        "presentable": false,
+        "min": 15,
+        "max": 15,
+        "pattern": "^[a-z0-9]+$",
+        "autogeneratePattern": "[a-z0-9]{15}"
+      },
+      {
+        "id": "rel_ptg_prp_01",
+        "name": "property",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": false,
+        "collectionId": "scproperties001",
+        "cascadeDelete": true,
+        "maxSelect": 1,
+        "minSelect": 0
+      },
+      {
+        "id": "rel_ptg_tag_01",
+        "name": "tag",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": false,
+        "collectionId": "sctags000000001",
+        "cascadeDelete": true,
+        "maxSelect": 1,
+        "minSelect": 0
+      },
+      {
+        "id": "rel_ptg_usr_01",
+        "name": "added_by",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": false,
+        "collectionId": "_pb_users_auth_",
+        "cascadeDelete": false,
+        "maxSelect": 1,
+        "minSelect": 0
+      },
+      {
+        "id": "autodt_ptg_cr",
+        "name": "created",
+        "type": "autodate",
+        "system": false,
+        "hidden": false,
+        "presentable": false,
+        "onCreate": true,
+        "onUpdate": false
+      }
+    ],
+    "indexes": [
+      "CREATE UNIQUE INDEX `idx_proptags_prop_tag` ON `sidnicasa_property_tags` (`property`, `tag`)"
+    ],
+    "listRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "viewRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "createRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id && added_by = @request.auth.id",
+    "updateRule": "@request.auth.id != '' && added_by = @request.auth.id",
+    "deleteRule": "@request.auth.id != '' && added_by = @request.auth.id"
+  },
+  {
+    "id": "scvisits0000001",
+    "name": "sidnicasa_visits",
+    "type": "base",
+    "system": false,
+    "fields": [
+      {
+        "id": "text_id_vst_01",
+        "name": "id",
+        "type": "text",
+        "system": true,
+        "required": true,
+        "primaryKey": true,
+        "hidden": false,
+        "presentable": false,
+        "min": 15,
+        "max": 15,
+        "pattern": "^[a-z0-9]+$",
+        "autogeneratePattern": "[a-z0-9]{15}"
+      },
+      {
+        "id": "rel_vst_prp_01",
+        "name": "property",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": false,
+        "collectionId": "scproperties001",
+        "cascadeDelete": true,
+        "maxSelect": 1,
+        "minSelect": 0
+      },
+      {
+        "id": "dat_vst_dte_01",
+        "name": "visited_at",
+        "type": "date",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": true
+      },
+      {
+        "id": "rel_vst_att_01",
+        "name": "attendees",
+        "type": "relation",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "collectionId": "_pb_users_auth_",
+        "cascadeDelete": false,
+        "maxSelect": 0,
+        "minSelect": 0
+      },
+      {
+        "id": "txt_vst_nts_01",
+        "name": "notes",
+        "type": "text",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "max": 10000
+      },
+      {
+        "id": "fil_vst_pht_01",
+        "name": "photos",
+        "type": "file",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "maxSelect": 20,
+        "maxSize": 5242880,
+        "mimeTypes": ["image/jpeg", "image/png", "image/webp"],
+        "thumbs": ["320x240", "800x600"],
+        "protected": false
+      },
+      {
+        "id": "fil_vst_aud_01",
+        "name": "voice_notes",
+        "type": "file",
+        "system": false,
+        "required": false,
+        "hidden": false,
+        "presentable": false,
+        "maxSelect": 10,
+        "maxSize": 10485760,
+        "mimeTypes": ["audio/mpeg", "audio/mp4", "audio/webm", "audio/ogg", "audio/wav"],
+        "thumbs": [],
+        "protected": false
+      },
+      {
+        "id": "rel_vst_cby_01",
+        "name": "created_by",
+        "type": "relation",
+        "system": false,
+        "required": true,
+        "hidden": false,
+        "presentable": false,
+        "collectionId": "_pb_users_auth_",
+        "cascadeDelete": false,
+        "maxSelect": 1,
+        "minSelect": 0
+      },
+      {
+        "id": "autodt_vst_cr",
+        "name": "created",
+        "type": "autodate",
+        "system": false,
+        "hidden": false,
+        "presentable": false,
+        "onCreate": true,
+        "onUpdate": false
+      }
+    ],
+    "indexes": [
+      "CREATE INDEX `idx_visits_prop` ON `sidnicasa_visits` (`property`)",
+      "CREATE INDEX `idx_visits_date` ON `sidnicasa_visits` (`visited_at`)"
+    ],
+    "listRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "viewRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id",
+    "createRule": "@request.auth.id != '' && @collection.sidnicasa_members.user ?= @request.auth.id && created_by = @request.auth.id",
+    "updateRule": "@request.auth.id != '' && created_by = @request.auth.id",
+    "deleteRule": "@request.auth.id != '' && created_by = @request.auth.id"
+  }
+]
