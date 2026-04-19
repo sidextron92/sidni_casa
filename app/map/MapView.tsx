@@ -82,6 +82,11 @@ function jitterFor(id: string, radiusDeg = 0.003): [number, number] {
 export default function MapView({ properties }: Props) {
   const [sectors, setSectors] = useState<FeatureCollection | null>(null)
   const [sectorStatus, setSectorStatus] = useState<'loading' | 'loaded' | 'missing'>('loading')
+  const [isTouch] = useState(
+    () =>
+      typeof window !== 'undefined' &&
+      window.matchMedia?.('(hover: none)').matches === true,
+  )
 
   useEffect(() => {
     let cancelled = false
@@ -137,15 +142,13 @@ export default function MapView({ properties }: Props) {
           <GeoJSON
             data={sectors}
             style={() => SECTOR_STYLE}
+            // On touch devices, polygons must not be interactive: they sit
+            // under markers and otherwise absorb taps meant for the marker.
+            interactive={!isTouch}
             onEachFeature={(feature, layer) => {
+              if (isTouch) return
               const name = feature.properties?.name
               if (!name) return
-              // Skip sector tooltips on touch devices: they open on tap at the
-              // tap location, covering the marker the user is trying to hit.
-              const isTouch =
-                typeof window !== 'undefined' &&
-                window.matchMedia?.('(hover: none)').matches
-              if (isTouch) return
               layer.bindTooltip(name, { sticky: true, direction: 'center', className: 'sector-tooltip' })
             }}
           />
