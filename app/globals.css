@@ -36,3 +36,12 @@ body {
   background-size: 200% 100%;
   animation: shimmer 1.8s infinite;
 }
+
+/* Leaflet draws a focus rectangle on clicked path elements — kill it. */
+.leaflet-interactive:focus,
+.leaflet-interactive:focus-visible {
+  outline: none;
+}
+path.leaflet-interactive {
+  outline: none;
+}

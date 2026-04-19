@@ -4,6 +4,7 @@ import path from 'node:path'
 const config: NextConfig = {
   reactStrictMode: true,
   outputFileTracingRoot: path.join(__dirname),
+  transpilePackages: ['react-leaflet', '@react-leaflet/core'],
   experimental: {
     serverActions: {
       bodySizeLimit: '25mb',

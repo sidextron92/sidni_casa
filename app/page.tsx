@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
-import { Plus, Home as HomeIcon } from 'lucide-react'
+import { Plus, Home as HomeIcon, Map as MapIcon } from 'lucide-react'
 import { getServerClient } from '@/lib/pb'
 import {
   COLLECTIONS,
@@ -55,6 +55,13 @@ export default async function Home() {
           <p className="mt-1 text-sm text-stone-600">Hey {firstName} — let&apos;s find the one.</p>
         </div>
         <div className="flex items-center gap-3">
+          <Link
+            href="/map"
+            className="inline-flex items-center gap-1.5 rounded-full border border-stone-200 bg-white px-3 py-2 text-sm font-medium text-stone-700 transition hover:border-stone-400"
+          >
+            <MapIcon className="h-4 w-4" />
+            Map
+          </Link>
           <Link
             href="/properties/add"
             className="inline-flex items-center gap-1.5 rounded-full bg-rose-700 px-4 py-2 text-sm font-medium text-white shadow-sm transition hover:bg-rose-800"
