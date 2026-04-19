@@ -139,9 +139,14 @@ export default function MapView({ properties }: Props) {
             style={() => SECTOR_STYLE}
             onEachFeature={(feature, layer) => {
               const name = feature.properties?.name
-              if (name) {
-                layer.bindTooltip(name, { sticky: true, direction: 'center', className: 'sector-tooltip' })
-              }
+              if (!name) return
+              // Skip sector tooltips on touch devices: they open on tap at the
+              // tap location, covering the marker the user is trying to hit.
+              const isTouch =
+                typeof window !== 'undefined' &&
+                window.matchMedia?.('(hover: none)').matches
+              if (isTouch) return
+              layer.bindTooltip(name, { sticky: true, direction: 'center', className: 'sector-tooltip' })
             }}
           />
         )}
